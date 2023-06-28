@@ -1,0 +1,41 @@
+api:
+  version: v1.0.0
+  tag: lzy
+spring:
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 127.0.0.1:8848
+        namespace: e722ee67-bd98-482f-bef8-9d4e97e1a9ad
+        metadata:
+          version: ${service.information.version:v1.0.0}
+          tag: ${service.information.tag:prod}
+      # Nacos Config 配置项，对应 NacosConfigProperties 配置属性类
+      config:
+        server-addr: 127.0.0.1:8848
+        namespace: e722ee67-bd98-482f-bef8-9d4e97e1a9ad
+        group: DEFAULT_GROUP
+        name:
+        file-extension: yaml
+feign:
+  #熔断降级
+  sentinel:
+    enabled: false
+  client:
+    httpclient:
+      # 开启 Http Client
+      enabled: true
+    config:
+      ## default 设置的全局超时时间，指定服务名称可以设置单个服务的超时时间
+      default:
+        connectTimeout: 5000
+        readTimeout: 5000
+  ## 开启压缩
+  compression:
+    request:
+      enabled: true
+      ## 开启压缩的阈值，单位字节，默认2048，即是2k，这里为了演示效果设置成10字 节
+      min-request-size: 10
+      mime-types: text/xml,application/xml,application/json
+    response:
+      enabled: true

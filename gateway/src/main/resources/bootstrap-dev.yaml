@@ -1,0 +1,41 @@
+spring:
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 127.0.0.1:8848
+        namespace: e722ee67-bd98-482f-bef8-9d4e97e1a9ad
+        metadata:
+          version: v1.0.0
+          tag: lzy
+      # Nacos Config 配置项，对应 NacosConfigProperties 配置属性类
+      config:
+        server-addr: 127.0.0.1:8848
+        namespace: e722ee67-bd98-482f-bef8-9d4e97e1a9ad
+        group: DEFAULT_GROUP
+        name:
+        file-extension: yaml
+        extension-configs:
+          - data-id: env-config.yaml
+            group: DEFAULT_GROUP
+            refresh: true
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+          lower-case-service-id: true
+      routes:
+        - id: api-server-a # 路由的编号
+          uri: grayLb://api-server-a
+          predicates: # 断言，作为路由的匹配条件，对应 RouteDefinition 数组
+            - Path=/system/api/**
+          filters:
+      globalcors:
+        corsConfigurations:
+          '[/**]':
+            allowedOrigins: "*"
+            allowedHeader: "*"
+            allowedMethods:
+              - GET
+              - POST
+              - PUT
+              - DELETE

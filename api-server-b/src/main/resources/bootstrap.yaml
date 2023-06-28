@@ -1,0 +1,10 @@
+server:
+  port: 8803
+spring:
+  application:
+    name: api-server-b
+  profiles:
+    active: dev
+log:
+  level: DEBUG
+
